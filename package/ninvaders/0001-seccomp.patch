@@ -1,0 +1,36 @@
+--- ninvaders-0.1.1/nInvaders.c	2003-05-08 21:19:50.000000000 +0200
++++ ninvaders-0.1.1/ninvaders-patch.c	2018-11-18 14:49:32.019454312 +0100
+@@ -25,6 +25,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <sys/time.h>
++#include <seccomp.h>
+ #include "nInvaders.h"
+ #include "player.h"
+ #include "aliens.h"
+@@ -328,7 +329,24 @@
+ 
+ int main(int argc, char **argv)
+ {
+- 	weite = 0;
++ 	scmp_filter_ctx ctx = seccomp_init(SCMP_ACT_KILL);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(read), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(rt_sigreturn), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(close), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(brk), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(openat), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(ioctl), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(poll), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(stat), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(rt_sigaction), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(fstat), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(setitimer), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(access), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(write), 0);
++    seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(exit_group), 0);
++    seccomp_load(ctx);
++
++    weite = 0;
+ 	score = 0;
+ 	lives = 3;
+ 	level = 0;
