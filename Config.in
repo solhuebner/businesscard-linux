@@ -5,4 +5,5 @@ source "$BR2_EXTERNAL_BUSINESSCARD_PATH/package/2048/Config.in"
 source "$BR2_EXTERNAL_BUSINESSCARD_PATH/package/robotfindskitten/Config.in"
 source "$BR2_EXTERNAL_BUSINESSCARD_PATH/package/rogue/Config.in"
 source "$BR2_EXTERNAL_BUSINESSCARD_PATH/package/ninvaders/Config.in"
+source "$BR2_EXTERNAL_BUSINESSCARD_PATH/package/pacman4console/Config.in"
 
